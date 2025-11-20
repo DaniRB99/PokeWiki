@@ -9,13 +9,13 @@ function App() {
 	const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>(defualtPokemon)
 	return (
 		<>
+			<h1 className="Header-title">Pokemon Wiki</h1>
 			{selectedPokemon.id!=-1 && (
 				<div>
-					<h2>Poekmon Seleccionado</h2>
+					<h2>Pokemon Seleccionado</h2>
 					<PokemonDetails pokemon={selectedPokemon}></PokemonDetails>
 				</div>
 			)}
-			<h1>Bienvenidos a la pokewiki!</h1>
 			<PokemonList selectPokemon={setSelectedPokemon}></PokemonList>
 		</>
 	)

@@ -1,4 +1,4 @@
-
+import "./PokemonDetails.css"
 import { type Pokemon } from "../types/Pokemon"
 
 interface props {

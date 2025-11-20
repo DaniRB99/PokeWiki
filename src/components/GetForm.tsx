@@ -1,32 +1,40 @@
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent} from "react";
+import "./GetForm.css";
 
-function GetForm() {
-    const [from, setFrom] = useState();
-    const [to, setTo] = useState();
+interface props{
+    getPokemons:(from: number, to: number) => Promise<void>,
+    defaultFrom:number,
+    defaultTo:number
+}
 
-    const handleFromInput = (e:React.InputEvent) => {
-        setFrom(e.target.value);
+function GetForm({getPokemons, defaultFrom, defaultTo}:props) {
+    const [from, setFrom] = useState<number>(defaultFrom);
+    const [to, setTo] = useState<number>(defaultTo);
+
+    const handleFromInput = (e:ChangeEvent<HTMLInputElement>) => {
+        setFrom(Number(e.target.value));
     }
 
-    const handleToInput = (e:React.InputEvent) => {
-        setTo(e.target.value);
+    const handleToInput = (e:ChangeEvent<HTMLInputElement>) => {
+        setTo(Number(e.target.value));
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefulat();
-        console.log(FormData, to);
+    const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        getPokemons(from, to)
     }
 
     return (
-        <form>
+        <form className="form-input" onSubmit={handleSubmit}>
             <fieldset>
                 <label htmlFor="from-pokemon">From: </label>
-                <input type="number" id="from-pokemon" min={1} onChange={handleFromInput} />
+                <input type="number" id="from-pokemon" min={1} onChange={handleFromInput} defaultValue={from}/>
             </fieldset>
             <fieldset>
                 <label htmlFor="to-pokemon">To: </label>
-                <input type="number" id="to-pokemon" min={1} onChange={handleToInput} />
+                <input type="number" id="to-pokemon" min={1} onChange={handleToInput} defaultValue={to} />
             </fieldset>
+            <button>Get Pokemons!</button>
         </form>
     )
 }

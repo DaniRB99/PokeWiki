@@ -1,32 +1,36 @@
 import { useEffect, useState } from "react";
 import PokemonCard from "./PokemonCard"
-import {defualtPokemon, type PokeList, type Pokemon } from "../types/Pokemon";
+import { defualtPokemon, type PokeList, type Pokemon } from "../types/Pokemon";
 import "./PokemonList.css"
+import GetForm from "./GetForm";
 
 interface props {
-    selectPokemon:React.Dispatch<React.SetStateAction<Pokemon>>
+    selectPokemon: React.Dispatch<React.SetStateAction<Pokemon>>
 }
 
-function PokemonList({selectPokemon}:props) {
+function PokemonList({ selectPokemon }: props) {
     const [pokemons, setPokemons] = useState<PokeList>([defualtPokemon]);
+    const defaultFrom = 1;
+    const defualtTo = 20;
 
     useEffect(() => {
-        getPokemons(20).then((response) => setPokemons(response));
+        getPokemons(defaultFrom, defualtTo);
     }, [])
 
     const fetchPokemon = async (index: number) => {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${index}`);
         const data = await response.json();
-        return data
+        return data;
     }
 
-    const getPokemons = async (quantity: number) => {
-        const pokemonList:PokeList=[] ;
-        for (let i = 1; i < quantity; i++) {
+    const getPokemons = async (from: number, to: number) => {
+        const pokemonList: PokeList = [];
+        for (let i = from; i <= to; i++) {
             const pokemon = await fetchPokemon(i);
             pokemonList.push(pokemon);
         }
-        return pokemonList;
+
+        setPokemons(pokemonList)
     }
 
     const pokemonsCards = pokemons.map((pokemonObj => {
@@ -34,9 +38,12 @@ function PokemonList({selectPokemon}:props) {
     }))
 
     return (
-        <ul className="pokemon-list">
-            {pokemonsCards}
-        </ul>
+        <div>
+            <GetForm getPokemons={getPokemons} defaultFrom={defaultFrom} defaultTo={defualtTo}></GetForm>
+            <ul className="pokemon-list">
+                {pokemonsCards}
+            </ul>
+        </div>
     )
 }
 
