@@ -3,12 +3,13 @@ import "./PokemonCard.css"
 // type Pokemon = {name:string, sprites:{front_default:string}} | null;
 
 interface props {
-    pokemon:Pokemon
+    pokemon:Pokemon,
+    selectPokemon:React.Dispatch<React.SetStateAction<Pokemon>>
 }
 
-function PokemonCard({pokemon}:props) {
+function PokemonCard({pokemon, selectPokemon}:props) {
     return (
-        <li className="pokemon-card">
+        <li className="pokemon-card" onClick={() => selectPokemon(pokemon)}>
             <h2 className="pokemon-name">{pokemon.name}</h2>
             <img src={pokemon.sprites.front_default} alt="pokemon-img" className="pokemon-img" />
             <h3 className="text">HP: {pokemon.stats[0].base_stat}</h3>

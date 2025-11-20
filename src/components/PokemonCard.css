@@ -18,3 +18,9 @@
         width: 100%;
     }
 }
+
+.pokemon-card:hover{
+        background-color:darkorange;
+        color: black;
+    }
+

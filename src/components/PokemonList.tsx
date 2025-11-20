@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import PokemonCard from "./PokemonCard"
-import {defualtPokemon, type PokeList } from "../types/Pokemon";
+import {defualtPokemon, type PokeList, type Pokemon } from "../types/Pokemon";
 import "./PokemonList.css"
 
-function PokemonList() {
+interface props {
+    selectPokemon:React.Dispatch<React.SetStateAction<Pokemon>>
+}
+
+function PokemonList({selectPokemon}:props) {
     const [pokemons, setPokemons] = useState<PokeList>([defualtPokemon]);
 
     useEffect(() => {
@@ -26,7 +30,7 @@ function PokemonList() {
     }
 
     const pokemonsCards = pokemons.map((pokemonObj => {
-        return <PokemonCard key={pokemonObj.id} pokemon={pokemonObj}></PokemonCard>
+        return <PokemonCard key={pokemonObj.id} pokemon={pokemonObj} selectPokemon={selectPokemon}></PokemonCard>
     }))
 
     return (
