@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PokemonCard from "./PokemonCard"
 import { defualtPokemon, type PokeList, type Pokemon } from "../types/Pokemon";
 import "./PokemonList.css"
 import GetForm from "./GetForm";
+import { PokemonContext } from "../context/pokemonContext";
 
 interface props {
-    selectPokemon: React.Dispatch<React.SetStateAction<Pokemon>>
+    selectPokemon: React.Dispatch<React.SetStateAction<Pokemon>>,
+    selectPokemon2: React.Dispatch<React.SetStateAction<Pokemon>>
 }
 
-function PokemonList({ selectPokemon }: props) {
-    const [pokemons, setPokemons] = useState<PokeList>([defualtPokemon]);
+function PokemonList({ selectPokemon , selectPokemon2}: props) {
+    const {pokemons, setPokemons} = useContext(PokemonContext)
+
     const defaultFrom = 1;
     const defualtTo = 20;
 
@@ -34,7 +37,7 @@ function PokemonList({ selectPokemon }: props) {
     }
 
     const pokemonsCards = pokemons.map((pokemonObj => {
-        return <PokemonCard key={pokemonObj.id} pokemon={pokemonObj} selectPokemon={selectPokemon}></PokemonCard>
+        return <PokemonCard key={pokemonObj.id} pokemon={pokemonObj} selectPokemon={selectPokemon} selectedPokemon2={selectPokemon2}></PokemonCard>
     }))
 
     return (
